@@ -5,7 +5,7 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
-// ✅ Your Firebase config
+// ✅ Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyC67Xu6FvN9xeFugacWl3jazq5wdWirnVc",
   authDomain: "stackit-66e0b.firebaseapp.com",
@@ -16,12 +16,10 @@ const firebaseConfig = {
   measurementId: "G-0G33EDQYHC"
 };
 
-// ✅ Initialize app
+// ✅ Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app); // optional
 
-// ✅ Optional analytics
-const analytics = getAnalytics(app);
-
-// ✅ Export services
+// ✅ Export required services
 export const auth = getAuth(app);
 export const db = getFirestore(app);

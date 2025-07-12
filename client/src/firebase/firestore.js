@@ -73,9 +73,9 @@ export async function voteAnswer(questionId, answerId, voteType) {
   if (!docSnap.exists()) return;
 
   const currentVotes = docSnap.data().votes || 0;
-  const newVotes = voteType === "up" ? currentVotes + 1 : currentVotes - 1;
+  const updatedVotes = voteType === "up" ? currentVotes + 1 : currentVotes - 1;
 
-  await updateDoc(answerRef, { votes: newVotes });
+  await updateDoc(answerRef, { votes: updatedVotes });
 }
 
 // ==============================

@@ -1,23 +1,33 @@
-// src/firebase/auth.js
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { db } from "./firebase"; // assuming db is exported from firebase.js
+import { doc, setDoc } from "firebase/firestore";
 
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut
-} from "firebase/auth";
-import { auth } from "./firebase";
+const auth = getAuth();
 
-// Register a new user
-export function register(email, password) {
-  return createUserWithEmailAndPassword(auth, email, password);
+// Register user and store info in Firestore
+export async function register(email, password, username = "") {
+  const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+  const user = userCredential.user;
+
+  // Save additional user info in Firestore
+  await setDoc(doc(db, "users", user.uid), {
+    username,
+    email,
+    isAdmin: false,
+    createdAt: new Date()
+  });
+
+  return user;
 }
 
-// Login an existing user
+// Login user
 export function login(email, password) {
   return signInWithEmailAndPassword(auth, email, password);
 }
 
-// Logout the current user
+// Logout user
 export function logout() {
   return signOut(auth);
 }
+
+export { auth };
